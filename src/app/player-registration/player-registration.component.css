@@ -1,0 +1,104 @@
+/* matetec/src/app/player-registration/player-registration.component.css */
+
+/* Contenedor principal (ligeramente transparente para ver el fondo) */
+.registration-container {
+max-width: 500px;
+margin: 40px auto;
+padding: 30px;
+background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semi-transparente */
+border-radius: 8px;
+box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+}
+
+.registration-container h2 {
+text-align: center;
+color: #333;
+margin-bottom: 25px;
+font-size: 1.8rem;
+}
+
+.user-form {
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+
+.form-group {
+display: flex;
+flex-direction: column;
+}
+
+.form-group label {
+margin-bottom: 5px;
+font-weight: 600;
+color: #005a20; /* Verde oscuro para etiquetas */
+}
+
+/* Estilo para inputs Y select */
+.form-group input,
+.form-group select {
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 1rem;
+transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* CAMBIO DE COLOR: Borde de enfoque verde */
+.form-group input:focus,
+.form-group select:focus {
+border-color: #4CAF50; /* Verde principal */
+outline: none;
+box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.error-message {
+color: #d9534f; /* Rojo de error */
+font-size: 0.85rem;
+margin-top: 5px;
+}
+
+.buttons {
+display: flex;
+justify-content: flex-end; /* Botones a la derecha */
+gap: 10px;
+margin-top: 20px;
+}
+
+/* CAMBIO DE COLOR: Botones primario y secundario */
+.btn-primary,
+.btn-secondary {
+    /* Usamos los mismos estilos base de home.component.css */
+    font-size: 16px;
+    color: #fff;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+    border: 0;
+    z-index: 1;
+    user-select: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.8rem 1.5rem;
+    text-decoration: n;
+    font-weight: 900;
+    border-radius: 4px; /* Hacemos los botones un poco más cuadrados */
+}
+
+.btn-primary {
+    background-color: #008542; /* Verde del botón 'Iniciar Partida' */
+}
+.btn-primary:hover {
+    background-color: #006b35;
+}
+
+.btn-secondary {
+    background-color: #f44336; /* Rojo del botón 'Salir' */
+}
+.btn-secondary:hover {
+    background-color: #d32f2f;
+}
+
+.btn-primary:disabled {
+background-color: #a5d6a7; /* Verde pálido */
+cursor: not-allowed;
+}

@@ -1,0 +1,117 @@
+/* src/app/home/home.component.css */
+
+:host {
+ /* ... (esto queda igual) ... */
+ display: block;
+ height: 100vh;
+ width: 100vw;
+ background-size: cover;
+ background-position: center;
+ background-repeat: no-repeat;
+}
+
+.home-container {
+ display: flex;
+ flex-direction: column;
+ height: 100%;
+}
+
+/* --- Header --- */
+.main-header {
+ /* ... (esto queda igual) ... */
+ width: 100%;
+ background-color: #4CAF50;
+ padding: 10px 20px;
+ display: flex;
+ align-items: center;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ box-sizing: border-box;
+}
+
+.logo {
+ height: 50px;
+ width: auto;
+}
+
+/* --- Título (Modificado) --- */
+.title {
+ height: 200px; 
+ width: auto;
+ filter: drop-shadow(16px 16px 24px rgba(0, 0, 0, 0.7));
+}
+
+/* --- Contenido Principal (Clase Renombrada) --- */
+.main-content {
+ /* ... (esto queda igual) ... */
+ flex-grow: 1;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center; 
+ gap: 40px;
+}
+
+/* --- Nuevo Grupo de Opciones --- */
+.options-menu {
+ /* ... (esto queda igual) ... */
+ display: flex;
+ flex-direction: column;
+ gap: 20px; /* Espacio entre botones */
+}
+
+
+/* --- Botones (MODIFICADO) --- */
+/*
+ * Se han eliminado los estilos :before, :after y :active complejos
+ * para igualar el estilo "flat" del formulario de registro.
+ */
+.menu-button {
+  /* Estilos base (de player-registration.css) */
+  font-size: 18px; /* Mantenemos el tamaño original de home */
+  color: #fff;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  user-select: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  font-weight: 900;
+  transition: background-color 0.3s, transform 0.1s;
+  border-radius: 4px; /* Añadimos el borde redondeado del registro */
+
+  /* Color verde principal (de .btn-primary) */
+  background-color: #008542;
+}
+
+.menu-button:hover {
+  background-color: #006b35; /* El :hover de .btn-primary */
+}
+
+/* Estilo para el botón de salir (adaptado de .btn-secondary) */
+.exit-button {
+  background-color: #f44336; /* Rojo de .btn-secondary */
+}
+
+.exit-button:hover {
+  background-color: #d32f2f; /* El :hover de .btn-secondary */
+}
+
+.menu-button:active {
+  transform: translateY(2px); /* Un "click" simple */
+}
+
+/* --- Logo Build Business --- */
+.build-business-logo {
+ position: absolute; 
+ bottom: 20px;
+ left: 20px; 
+ height: 60px;
+width: auto;
+z-index: 10;  
+filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+}

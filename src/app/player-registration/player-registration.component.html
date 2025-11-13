@@ -1,0 +1,44 @@
+<div class="registration-container">
+    <h2>Registro de Jugador</h2>
+
+    <form [formGroup]="playerForm" (ngSubmit)="submitPlayer()" class="user-form">
+        
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input id="name" type="text" formControlName="name" placeholder="Escribe tu nombre" required>
+            <div *ngIf="playerForm.controls['name'].invalid && playerForm.controls['name'].touched" class="error-message">
+                El nombre es obligatorio.
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="age">Edad:</label>
+            <input id="age" type="number" formControlName="age" placeholder="Edad" required>
+            <div *ngIf="playerForm.controls['age'].invalid && playerForm.controls['age'].touched" class="error-message">
+                La edad es obligatoria (mínimo 5 años).
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" formControlName="sexo" required>
+                <option value="" disabled>Selecciona una opción</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+            </select>
+            <div *ngIf="playerForm.controls['sexo'].invalid && playerForm.controls['sexo'].touched" class="error-message">
+                Debes seleccionar una opción.
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" [disabled]="playerForm.invalid" class="btn-primary">
+                Iniciar Juego
+            </button>
+            
+            <button type="button" routerLink="/" class="btn-secondary">
+                Cancelar
+            </button>
+        </div>
+    </form>
+</div>

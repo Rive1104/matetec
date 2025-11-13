@@ -1,0 +1,64 @@
+<div class="game-container" *ngIf="player">
+  
+  <header class="game-header">
+    <div class="header-info">
+      <strong>Nivel:</strong> {{ level }} ({{ levelDescription }})
+    </div>
+    <div class="header-info">
+      <strong>Jugador:</strong> {{ player.name }}
+    </div>
+    <div class="timer">
+      Tiempo: <strong>{{ timeLeft }}s</strong>
+    </div>
+  </header>
+
+  <main class="game-board">
+    
+    <section class="operand-container">
+      <h3>Elementos</h3>
+      <div 
+        *ngFor="let op of operands"
+        class="operand"
+        [class.dropped]="op.isDropped"
+        [draggable]="gameState === 'playing' && !op.isDropped"
+        (dragstart)="onDragStart($event, op)">
+        {{ op.value }}
+      </div>
+    </section>
+
+    <section 
+      class="operator-container"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event)">
+      
+      <div class="operator-sign">{{ currentOperation }}</div>
+      <div class="drop-zone-slots">
+        <div class="slot">{{ droppedValues[0]?.value || '?' }}</div>
+        <div class="slot">{{ droppedValues[1]?.value || '?' }}</div>
+      </div>
+      <p>Arrastra dos números aquí</p>
+    </section>
+
+    <section class="result-container">
+      <h3>Resultado</h3>
+      <img 
+        src="https://placehold.co/150x200/e0e0e0/ffffff?text=ROBOT&font=roboto" 
+        alt="Robot difuso" 
+        class="robot-image">
+      <div class="target-result">
+        {{ targetResult }}
+      </div>
+    </section>
+
+  </main>
+
+  <div class="game-overlay" *ngIf="gameState !== 'playing'">
+    <div class="message-box" [class.win]="gameState === 'win'" [class.lose]="gameState === 'lose'">
+      <h2>{{ gameMessage }}</h2>
+      <p *ngIf="gameState === 'win'">¡Nivel {{ level }} Superado!</p>
+      <p *ngIf="gameState === 'lose'">Nivel {{ level }} Fallido</p>
+      <p>Cargando siguiente nivel...</p>
+    </div>
+  </div>
+
+</div>
