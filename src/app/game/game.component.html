@@ -1,50 +1,70 @@
 <div class="game-container" *ngIf="player">
   
+  <!-- ENCABEZADO -->
   <header class="game-header">
     <div class="header-info">
-      <strong>Nivel:</strong> {{ level }} ({{ levelDescription }})
+      <strong>Nivel:</strong> {{ level <= 10 ? level : 10 }} ({{ levelDescription }})
     </div>
     <div class="header-info">
       <strong>Jugador:</strong> {{ player.name }}
     </div>
-    <div class="timer">
+    <div class="timer" [class.urgent]="timeLeft < 10" *ngIf="gameState !== 'finished'">
       Tiempo: <strong>{{ timeLeft }}s</strong>
     </div>
   </header>
 
-  <main class="game-board">
+  <!-- TABLERO DE JUEGO (Mientras se juega) -->
+  <main class="game-board" *ngIf="gameState !== 'finished'">
     
+    <!-- IZQUIERDA: Elementos -->
     <section class="operand-container">
       <h3>Elementos</h3>
-      <div 
-        *ngFor="let op of operands"
-        class="operand"
-        [class.dropped]="op.isDropped"
-        [draggable]="gameState === 'playing' && !op.isDropped"
-        (dragstart)="onDragStart($event, op)">
-        {{ op.value }}
+      <div class="operands-grid">
+        <div *ngFor="let op of operands"
+             class="operand"
+             [class.dropped]="op.isDropped"
+             draggable="true"
+             (dragstart)="onDragStart($event, op)">
+          {{ op.value }}
+        </div>
       </div>
     </section>
 
-    <section 
-      class="operator-container"
-      (dragover)="onDragOver($event)"
-      (drop)="onDrop($event)">
+    <!-- CENTRO: Zona de Operación -->
+    <section class="operator-container" (dragover)="onDragOver($event)">
       
-      <div class="operator-sign">{{ currentOperation }}</div>
-      <div class="drop-zone-slots">
-        <div class="slot">{{ droppedValues[0]?.value || '?' }}</div>
-        <div class="slot">{{ droppedValues[1]?.value || '?' }}</div>
+      <!-- Slot 1 -->
+      <div class="slot" (drop)="onDrop($event, 0)" [class.filled]="droppedValues[0]">
+        {{ droppedValues[0]?.value || '?' }}
       </div>
-      <p>Arrastra dos números aquí</p>
+
+      <!-- Signo 1 -->
+      <div class="operator-sign">{{ currentOperations[0] }}</div>
+
+      <!-- Slot 2 -->
+      <div class="slot" (drop)="onDrop($event, 1)" [class.filled]="droppedValues[1]">
+        {{ droppedValues[1]?.value || '?' }}
+      </div>
+
+      <!-- Elementos extra para niveles 9 y 10 (3 términos) -->
+      <ng-container *ngIf="droppedValues.length > 2">
+        <!-- Signo 2 -->
+        <div class="operator-sign">{{ currentOperations[1] }}</div>
+
+        <!-- Slot 3 -->
+        <div class="slot" (drop)="onDrop($event, 2)" [class.filled]="droppedValues[2]">
+          {{ droppedValues[2]?.value || '?' }}
+        </div>
+      </ng-container>
+
     </section>
 
+    <!-- DERECHA: Resultado -->
     <section class="result-container">
       <h3>Resultado</h3>
-      <img 
-        src="https://placehold.co/150x200/e0e0e0/ffffff?text=ROBOT&font=roboto" 
-        alt="Robot difuso" 
-        class="robot-image">
+      <div class="robot-placeholder">
+        🤖
+      </div>
       <div class="target-result">
         {{ targetResult }}
       </div>
@@ -52,12 +72,42 @@
 
   </main>
 
-  <div class="game-overlay" *ngIf="gameState !== 'playing'">
+  <!-- PANTALLA DE RESULTADOS (Al terminar los 10 niveles) -->
+  <div class="results-panel" *ngIf="gameState === 'finished'">
+    <h1>¡Juego Terminado!</h1>
+    
+    <div class="stats-card">
+      <h2>{{ player.name }}</h2>
+      <div class="stat-row">
+        <span>Niveles Superados:</span>
+        <span class="val green">{{ levelsWon }}</span>
+      </div>
+      <div class="stat-row">
+        <span>Niveles Fallidos:</span>
+        <span class="val red">{{ levelsLost }}</span>
+      </div>
+      <div class="stat-row">
+        <span>Tiempo Total:</span>
+        <span class="val">{{ timeSpentTotal }} seg</span>
+      </div>
+      
+      <div class="final-score">
+        <span>Puntuación Final:</span>
+        <strong>{{ finalScore }} pts</strong>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a routerLink="/puntuaciones" class="btn-primary">Ver Tabla de Puntuaciones</a>
+      <a routerLink="/" class="btn-secondary">Volver al Inicio</a>
+    </div>
+  </div>
+
+  <!-- OVERLAY MENSAJES DE NIVEL -->
+  <div class="game-overlay" *ngIf="gameState === 'win' || gameState === 'lose'">
     <div class="message-box" [class.win]="gameState === 'win'" [class.lose]="gameState === 'lose'">
       <h2>{{ gameMessage }}</h2>
-      <p *ngIf="gameState === 'win'">¡Nivel {{ level }} Superado!</p>
-      <p *ngIf="gameState === 'lose'">Nivel {{ level }} Fallido</p>
-      <p>Cargando siguiente nivel...</p>
+      <p>Pasando al siguiente nivel...</p>
     </div>
   </div>
 

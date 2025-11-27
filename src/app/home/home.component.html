@@ -1,15 +1,50 @@
 <div class="home-container">
-  <main class="main-content">
-    
-    <img src="MateTec.png" alt="Título Matetec" class="title">
 
-    <div class="options-menu">
-            <a routerLink="/registro" class="menu-button">Iniciar Partida</a>
-      <a routerLink="/puntuaciones" class="menu-button">Ver Puntuaciones</a>
-      <button (click)="salir()" class="menu-button exit-button">Salir</button>
-    </div>
-    
-  </main>
+  <main class="main-content">
+    
+    <img src="MateTec.png" alt="Título Matetec" class="title">
+
+    <div class="options-menu">
+      <a routerLink="/registro" class="menu-button">Iniciar Partida</a>
+      
+      <!-- NUEVO BOTÓN: Volver a Intentar -->
+      <button (click)="toggleRetryList()" class="menu-button retry-button">Volver a Intentar</button>
+
+      <a routerLink="/puntuaciones" class="menu-button">Ver Puntuaciones</a>
+      <button (click)="salir()" class="menu-button exit-button">Salir</button>
+    </div>
+
+    <!-- LISTA DESPLEGABLE PARA REINTENTAR -->
+    <!-- Se muestra solo si showRetryList es true -->
+    <div class="retry-panel" *ngIf="showRetryList">
+        <h3>Selecciona tu Jugador</h3>
+        <div class="retry-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Máx. Puntuación</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let player of playerList">
+                        <td>{{ player.name }}</td>
+                        <td class="score">{{ player.puntuacion || 0 }} pts</td>
+                        <td>
+                            <button class="btn-play-again" (click)="retryGame(player.id)">Jugar</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="playerList.length === 0">
+                        <td colspan="3">No hay jugadores registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn-close-retry" (click)="toggleRetryList()">Cerrar</button>
+    </div>
+    
+  </main>
 <img src="BuildBusinessLogo.png" alt="Logo Build Business" class="build-business-logo">
 
 </div>

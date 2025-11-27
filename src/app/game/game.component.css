@@ -1,180 +1,208 @@
-/* Contenedor principal del juego */
 .game-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
   background: linear-gradient(135deg, #02200a 0%, #005a20 100%);
-  color: #ffffff;
+  color: #fff;
   font-family: 'Arial', sans-serif;
-  overflow: hidden; /* Evita barras de scroll */
-  position: relative;
+  overflow: hidden;
 }
 
-/* 1. Encabezado (Nivel, Jugador, Tiempo) */
 .game-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 15px 30px;
-  background-color: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-bottom: 2px solid #4CAF50;
-  font-size: 1.1rem;
+  background: rgba(0,0,0,0.3);
+  font-size: 1.2rem;
 }
 
-.timer {
-  font-size: 1.5rem;
-  color: #fdd835; /* Amarillo */
+.timer.urgent {
+  color: #ff5252;
+  animation: pulse 1s infinite;
 }
 
-/* 2. Tablero del juego (3 columnas) */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
 .game-board {
-  flex-grow: 1; /* Ocupa el espacio restante */
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* 3 columnas iguales */
-  gap: 20px;
+  flex: 1;
+  display: flex;
   padding: 20px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Estilos comunes para las 3 secciones */
-.operand-container,
-.operator-container,
-.result-container {
+/* COLUMNAS */
+.operand-container, .result-container {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 20px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 20px;
+  min-height: 400px;
 }
 
-/* Columna Izquierda: Elementos */
-.operand-container h3,
-.result-container h3 {
-  margin-top: 0;
-  font-size: 1.5rem;
-  color: #a5d6a7;
-  text-transform: uppercase;
+.operands-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .operand {
-  background-color: #4CAF50;
-  color: white;
-  font-size: 3rem;
-  font-weight: bold;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  margin: 10px;
-  cursor: grab;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-.operand:active {
-  cursor: grabbing;
-  transform: scale(1.1);
-}
-
-/* Estilo para un elemento que ya fue soltado */
-.operand.dropped {
-  opacity: 0.3;
-  cursor: not-allowed;
-  background-color: #555;
-}
-
-/* Columna Central: Zona de Suma */
-.operator-container {
-  border: 3px dashed #4CAF50;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.operator-sign {
-  font-size: 8rem;
-  font-weight: bold;
-  color: #fdd835;
-}
-
-.drop-zone-slots {
-  display: flex;
-  gap: 10px;
-}
-.slot {
-  width: 60px;
-  height: 60px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid #a5d6a7;
-  border-radius: 4px;
+  width: 70px;
+  height: 70px;
+  background: #4CAF50;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+  font-weight: bold;
+  cursor: grab;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-.operator-container p {
-  color: #ccc;
-  font-style: italic;
+.operand.dropped {
+  opacity: 0.3;
+  cursor: default;
 }
 
-/* Columna Derecha: Resultado */
-.robot-image {
-  width: 150px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  /* La imagen de placeholder no se puede difuminar, 
-     pero si fuera una imagen real, usarías esto: */
-  filter: blur(4px) opacity(0.6); 
-  margin-bottom: 20px;
+/* ZONA CENTRAL (OPERACIÓN) */
+.operator-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 15px;
+  padding: 30px;
+  border: 3px dashed #81c784;
+}
+
+.slot {
+  width: 80px;
+  height: 80px;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: rgba(255,255,255,0.1);
+}
+
+.slot.filled {
+  background: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.operator-sign {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffeb3b;
+}
+
+.result-container .robot-placeholder {
+  font-size: 5rem;
+  margin: 20px 0;
+  opacity: 0.7;
+  filter: blur(2px);
 }
 
 .target-result {
-  font-size: 5rem;
+  font-size: 4rem;
   font-weight: bold;
-  color: #ffffff;
   background: #008542;
   padding: 10px 30px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-/* 3. Superposición (Overlay) */
+/* PANTALLA FINAL */
+.results-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+}
+
+.stats-card {
+  background: #fff;
+  color: #333;
+  padding: 40px;
+  border-radius: 15px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  margin-bottom: 30px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.val.green { color: #2e7d32; font-weight: bold; }
+.val.red { color: #c62828; font-weight: bold; }
+
+.final-score {
+  margin-top: 30px;
+  font-size: 1.5rem;
+  background: #e8f5e9;
+  padding: 15px;
+  border-radius: 8px;
+  color: #1b5e20;
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 15px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-primary { background: #ffd700; color: #333; }
+.btn-secondary { background: #fff; color: #333; }
+
+/* OVERLAY */
 .game-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
-  backdrop-filter: blur(5px);
 }
 
 .message-box {
-  background: white;
+  background: #fff;
   color: #333;
   padding: 40px;
-  border-radius: 12px;
+  border-radius: 10px;
   text-align: center;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
-
-.message-box h2 {
-  margin: 0;
-  font-size: 3rem;
-}
-
-/* Colores para victoria o derrota */
-.message-box.win h2 {
-  color: #4CAF50; /* Verde */
-}
-.message-box.lose h2 {
-  color: #f44336; /* Rojo */
-}
+.message-box.win h2 { color: #2e7d32; }
+.message-box.lose h2 { color: #c62828; }

@@ -1,0 +1,51 @@
+<div class="scores-container">
+  <h1>Tabla de Puntuaciones</h1>
+  
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Puntuación</th>
+          <th>Detalles</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{ user.name }}</td>
+          <td class="score">{{ user.puntuacion || 0 }} pts</td>
+          <td>
+            <button class="btn-detail" (click)="showDetails(user)">Ver Detalles</button>
+          </td>
+        </tr>
+        <tr *ngIf="users.length === 0">
+          <td colspan="2" class="empty">No hay puntuaciones registradas aún.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer-actions">
+    <a routerLink="/" class="btn-back">Volver al Inicio</a>
+  </div>
+
+  <!-- MODAL DE DETALLE -->
+  <div class="modal-backdrop" *ngIf="selectedUser" (click)="closeDetails()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Detalles del Jugador</h2>
+      <div class="detail-row">
+        <strong>Nombre:</strong> <span>{{ selectedUser.name }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>Edad:</strong> <span>{{ selectedUser.age }} años</span>
+      </div>
+      <div class="detail-row">
+        <strong>Sexo:</strong> <span>{{ selectedUser.sexo }}</span>
+      </div>
+      <div class="detail-row highlight">
+        <strong>Puntuación:</strong> <span>{{ selectedUser.puntuacion }}</span>
+      </div>
+      <button class="btn-close" (click)="closeDetails()">Cerrar</button>
+    </div>
+  </div>
+</div>
